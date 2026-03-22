@@ -83,11 +83,12 @@ VERCEL_ORG_ID      = (orgId 값)
 
 ### 3.1. 환경 변수 관리
 
-1. Vercel Dashboard
-2. Settings
-3. Environment Variables
-4. key, value 입력 후 적용할 환경 체크(Production, Preview, Development)
-5. Save
+1. Vercel 대시보드
+2. 프로젝트 선택
+3. Settings
+4. Environment Variables
+5. key, value 입력 후 적용할 환경 체크(Production, Preview, Development)
+6. Save
 
 - 또는 Vercel CLI 사용:
 
@@ -127,4 +128,29 @@ vercel env pull
 }
 ```
 
-## 4. 워크플로우 파일 작성
+## 4. Vercel Git 연동 해제
+
+1. Vercel 대시보드
+2. 프로젝트 선택
+3. Settings
+4. Git
+5. Connected Git Repository
+6. Disconnect
+
+## 5. Github branch ruleset 설정
+
+1. 레포지토리 Settings
+2. Branches > Add branch ruleset
+3. Ruleset Name 입력 (브랜치 이름 등)
+4. Enforcement status 를 Active 로 변경
+5. Target branches > Add target > Include by pattern
+6. 브랜치 이름 입력(또는 포함되는 글자)
+7. Require a pull request before merging 선택 (필요 시 옵션 선택)
+8. Require status checks to pass 선택
+9. 하위 Require branches to be up to date before merging 선택
+10. Add checks > 반드시 통과해야 하는 job 이름 작성 (현재 workflow 에 없어도 가능)
+    - job 에 `name` 이 존재하는 경우 반드시 해당 값으로 설정해야 함
+
+## 6. Github Actions 파일 생성
+
+- ./github/workflows 에 yaml(yml) 파일 생성
