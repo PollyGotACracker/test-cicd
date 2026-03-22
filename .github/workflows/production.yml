@@ -1,0 +1,40 @@
+# ============================================================
+# Production 배포 워크플로우
+# develop → main PR이 merge 되어 main에 push될 때 실행
+# ============================================================
+name: Deploy Production
+
+# 트리거 조건
+on:
+  push:
+    branches: [main]
+
+# Vercel 인증 환경변수
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  deploy-production:
+    name: Deploy Production
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) 레포지토리 코드를 가상머신에 체크아웃
+      - uses: actions/checkout@v4
+
+      # 2) Vercel CLI 설치
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      # 3) Production 환경 설정 가져오기
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      # 4) Production 빌드
+      - name: Build Project
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      # 5) Production 배포
+      - name: Deploy to Production
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
