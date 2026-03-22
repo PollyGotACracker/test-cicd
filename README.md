@@ -127,4 +127,19 @@ vercel env pull
 }
 ```
 
-## 4. 워크플로우 파일 작성
+## 4. Github branch ruleset 설정
+
+1. 레포지토리 Settings
+2. Branches > Add branch ruleset
+3. Ruleset Name 입력 (브랜치 이름 등)
+4. Enforcement status 를 Active 로 변경
+5. Target branches > Add target > Include by pattern
+6. 브랜치 이름 입력(또는 포함되는 글자)
+7. Require a pull request before merging 선택 (필요 시 옵션 선택택)
+8. Require status checks to pass 선택
+9. 하위 Require branches to be up to date before merging 선택
+10. Add checks > 반드시 통과해야 하는 job 이름 작성 (현재 workflow 에 없어도 가능)
+
+## 5. Github Actions 파일 생성
+
+- ./github/workflows 에 yaml(yml) 파일 생성
