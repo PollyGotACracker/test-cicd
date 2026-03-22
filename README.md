@@ -27,7 +27,7 @@ GitHub Actions: Vercel Production 배포
 | 토큰 발급자 (1명) | 접근 가능(env 관리) | 수정 가능      | 수정 가능       | 무료 |
 | 나머지 팀원       | 접근 불가           | 수정 가능      | 수정 가능       | 무료 |
 
-## 1. Vercel 준비(담당 팀원)
+## 1. Vercel 준비
 
 ### 1.1. Vercel CLI 설치
 
@@ -64,7 +64,7 @@ vercel link
    - 좌하단 계정 옆 ... > 설정 아이콘 > Account Settings > Tokens 메뉴
 2. Access Token 발급
 
-## 2. GitHub Secrets 등록(Repo Collaborator 누구나 가능)
+## 2. GitHub Secrets 등록
 
 1. GitHub repo Settings
 2. Secrets and variables
@@ -149,7 +149,9 @@ vercel env pull
 8. Require status checks to pass 선택
 9. 하위 Require branches to be up to date before merging 선택
 10. Add checks > 반드시 통과해야 하는 job 이름 작성 (현재 workflow 에 없어도 가능)
-    - job 에 `name` 이 존재하는 경우 반드시 해당 값으로 설정해야 함
+    - job 에 `name` 이 존재하는 경우 반드시 해당 이름으로 설정해야 함
+    - develop, main 브랜치에 test, preview deploy job 을 추가
+    - **production deploy job 은 추가하지 않는다(영구 pending 상태)**
 
 ## 6. Github Actions 파일 생성
 
