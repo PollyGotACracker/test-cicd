@@ -22,10 +22,10 @@ GitHub Actions: Vercel Production 배포
 
 ## 권한 구조
 
-| 역할              | Vercel 대시보드     | GitHub Secrets | 코드/워크플로우 | 비용 |
-| ----------------- | ------------------- | -------------- | --------------- | ---- |
-| 토큰 발급자 (1명) | 접근 가능(env 관리) | 수정 가능      | 수정 가능       | 무료 |
-| 나머지 팀원       | 접근 불가           | 수정 가능      | 수정 가능       | 무료 |
+| 역할              | Vercel 대시보드 | GitHub Secrets | 코드/워크플로우 | 비용 |
+| ----------------- | --------------- | -------------- | --------------- | ---- |
+| 토큰 발급자 (1명) | 접근 가능       | 수정 가능      | 수정 가능       | 무료 |
+| 나머지 팀원       | 접근 불가       | 수정 가능      | 수정 가능       | 무료 |
 
 ## 1. Vercel 준비
 
@@ -81,8 +81,6 @@ VERCEL_ORG_ID      = (orgId 값)
 
 ## 3. Vercel 환경변수 등록
 
-### 3.1. 환경 변수 관리
-
 1. Vercel 대시보드
 2. 프로젝트 선택
 3. Settings
@@ -92,7 +90,7 @@ VERCEL_ORG_ID      = (orgId 값)
 
 - 또는 Vercel CLI 사용:
 
-```
+```shell
 # 환경변수 추가 (환경 지정)
 vercel env add DATABASE_URL production
 
@@ -108,24 +106,13 @@ vercel env ls
 vercel env rm DATABASE_URL
 ```
 
-- 모든 팀원이 Vercel CLI 를 사용하는 경우 .env 파일을 별도 공유 없이 받을 수 있음
+- 모든 팀원이 Vercel CLI 를 사용하는 경우 .env.local 파일을 별도 공유 없이 받을 수 있음
 
 ```shell
+# .env.local 파일 추가 및 .gitignore 업데이트
 vercel env pull
-```
-
-### 3.2. 공개 환경변수 관리(선택)
-
-- 프로젝트 루트 경로에 vercel.json 추가
-
-```json
-// 예시
-{
-  "env": {
-    "NEXT_PUBLIC_API_URL": "https://api.example.com",
-    "NEXT_PUBLIC_APP_NAME": "My App"
-  }
-}
+# development 환경에서 프로젝트 실행
+vercel dev
 ```
 
 ## 4. Vercel Git 연동 해제
@@ -150,6 +137,7 @@ vercel env pull
 9. 하위 Require branches to be up to date before merging 선택
 10. Add checks > 반드시 통과해야 하는 job 이름 작성 (현재 workflow 에 없어도 가능)
     - job 에 `name` 이 존재하는 경우 반드시 해당 이름으로 설정해야 함
+      - 예제 파일(preview.yml)의 경우: `Test & Deploy Preview`
     - develop, main 브랜치에 test, preview deploy job 을 추가
     - **production deploy job 은 추가하지 않는다(영구 pending 상태)**
 
