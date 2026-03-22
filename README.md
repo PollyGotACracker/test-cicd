@@ -145,10 +145,11 @@ vercel env pull
 4. Enforcement status 를 Active 로 변경
 5. Target branches > Add target > Include by pattern
 6. 브랜치 이름 입력(또는 포함되는 글자)
-7. Require a pull request before merging 선택 (필요 시 옵션 선택택)
+7. Require a pull request before merging 선택 (필요 시 옵션 선택)
 8. Require status checks to pass 선택
 9. 하위 Require branches to be up to date before merging 선택
 10. Add checks > 반드시 통과해야 하는 job 이름 작성 (현재 workflow 에 없어도 가능)
+    - job 에 `name` 이 존재하는 경우 반드시 해당 값으로 설정해야 함
 
 ## 6. Github Actions 파일 생성
 
