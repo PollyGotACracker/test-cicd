@@ -27,7 +27,7 @@ GitHub Actions: Vercel Production 배포
 | 토큰 발급자 (1명) | 접근 가능(env 관리) | 수정 가능      | 수정 가능       | 무료 |
 | 나머지 팀원       | 접근 불가           | 수정 가능      | 수정 가능       | 무료 |
 
-## 1. Vercel 준비(담당 팀원)
+## 1. Vercel 준비
 
 ### 1.1. Vercel CLI 설치
 
@@ -64,7 +64,7 @@ vercel link
    - 좌하단 계정 옆 ... > 설정 아이콘 > Account Settings > Tokens 메뉴
 2. Access Token 발급
 
-## 2. GitHub Secrets 등록(Repo Collaborator 누구나 가능)
+## 2. GitHub Secrets 등록
 
 1. GitHub repo Settings
 2. Secrets and variables
