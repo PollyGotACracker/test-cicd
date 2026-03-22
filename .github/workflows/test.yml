@@ -19,26 +19,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) 레포지토리 코드를 가상머신에 체크아웃
+      # 레포지토리 코드를 가상머신에 체크아웃
       - uses: actions/checkout@v4
 
-      # 2) Node.js 환경 설정
+      # pnpm 설치
+      - name: Install pnpm
+        run: corepack enable pnpm
+
+      # Node.js 환경 설정 (pnpm 캐싱 사용)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm" # 캐싱으로 설치 속도 향상
+          cache: "pnpm"
 
-      # pnpm은 별도 설치 필요 (npm과 달리 기본 내장이 아님)
-      - name: Install pnpm
-        run: corepack enable pnpm
-
-      # 3) 의존성 설치
-      #    package-lock.json 기반 정확한 버전 설치(npm ci)
+      # 프로젝트 의존성 설치 (npm ci)
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 4) Jest 테스트 실행
+      # Jest 테스트 실행
       #    package.json의 "test" 스크립트 실행
       #    테스트 실패 시 PR merge 차단
       - name: Run tests

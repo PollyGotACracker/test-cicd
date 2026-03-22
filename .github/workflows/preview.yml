@@ -19,67 +19,53 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
-  # Job 1: 테스트 (test.yml과 동일)
-  test:
-    name: Run Jest
+  test-and-deploy:
+    name: Test & Deploy Preview
     runs-on: ubuntu-latest
     steps:
+      # 레포지토리 코드를 가상머신에 체크아웃
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      # pnpm 설치
+      - name: Install pnpm
+        run: corepack enable pnpm
+
+      # Node.js 환경 설정 (pnpm 캐싱 사용)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
-        run: corepack enable pnpm
-      - run: pnpm install --frozen-lockfile
+
+      # 프로젝트 의존성 설치 (npm ci)
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 테스트
+      # 테스트가 통과하면 계속 실행, 실패하면 여기서 중단
       - name: Run tests
         run: pnpm test
-        # env:
-        #   DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        #   API_KEY: ${{ secrets.API_KEY }}
 
-  # Job 2: Preview 배포
-  deploy-preview:
-    name: Deploy Preview
-    needs: test # 위의 "test" job이 성공해야만 실행 가능
-    runs-on: ubuntu-latest
-    steps:
-      # 1) 코드 체크아웃
-      - uses: actions/checkout@v4
-
-      # 2) Vercel CLI 전역 설치
-      #    vercel 명령어를 사용하기 위해 필요
+      # Vercel CLI 설치
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
-      # 3) Vercel 프로젝트 설정 가져오기
-      #    --yes: 프롬프트 자동 승인
-      #    --environment=preview: Preview 환경의 설정과 환경변수를 가져옴
-      #    --token: Vercel 대시보드에서 발급한 Access Token (Secrets에 등록)
-      #
-      #    이 명령이 실행되면 .vercel/ 디렉토리에 프로젝트 설정이 생성됨
+      # Preview Build
       - name: Pull Vercel Environment
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
-      # 4) Preview 빌드
-      #    GitHub Actions 가상머신에서 빌드 수행 (.vercel/output/)
-      - name: Build Project
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      # 5) 빌드 결과물을 Vercel에 업로드 (Preview 배포)
-      #    --prebuilt: 이미 빌드된 결과물을 그대로 업로드
-      #
-      #    배포 완료 후 Preview URL이 stdout으로 출력됨
-      #    URL을 GITHUB_OUTPUT에 저장 후 다음 step에서 사용
-      - name: Deploy to Vercel
-        id: deploy # 이 step의 ID (outputs 참조용)
+      # Preview Deploy
+      # GITHUB_OUTPUT 환경변수에 url 저장
+      - name: Deploy
+        id: deploy
         run: |
           url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$url" >> $GITHUB_OUTPUT
 
-      # 6) PR에 Preview URL 댓글 달기
-      #    Vercel Git Integration 없이 배포하면 자동 댓글이 안 달리므로
-      #    GitHub API를 직접 호출해서 PR에 댓글을 남김
-      - name: Comment Preview URL on PR
+      # Preview URL 댓글 추가
+      - name: Comment PR
         uses: actions/github-script@v7
         with:
           script: |
@@ -87,5 +73,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `🚀 Preview 배포 완료!\n${{ steps.deploy.outputs.url }}`
+              body: `🚀 Preview: ${{ steps.deploy.outputs.url }}`
             })
