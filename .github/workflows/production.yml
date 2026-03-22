@@ -22,16 +22,16 @@ jobs:
       # 레포지토리 코드를 가상머신에 체크아웃
       - uses: actions/checkout@v4
 
+      # pnpm 설치 (프로젝트 의존성 설치 X)
+      - name: Install pnpm
+        run: corepack enable pnpm
+
       # Node.js 환경 설정 (pnpm 캐싱 사용)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
-
-      # pnpm 설치 (프로젝트 의존성 설치 X)
-      - name: Install pnpm
-        run: corepack enable pnpm
 
       # Vercel CLI 설치
       - name: Install Vercel CLI
