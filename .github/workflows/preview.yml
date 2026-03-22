@@ -22,6 +22,8 @@ jobs:
   test-and-deploy:
     name: Test & Deploy Preview
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       # 레포지토리 코드를 가상머신에 체크아웃
       - uses: actions/checkout@v4
