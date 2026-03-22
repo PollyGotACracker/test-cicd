@@ -149,7 +149,9 @@ vercel env pull
 8. Require status checks to pass 선택
 9. 하위 Require branches to be up to date before merging 선택
 10. Add checks > 반드시 통과해야 하는 job 이름 작성 (현재 workflow 에 없어도 가능)
-    - job 에 `name` 이 존재하는 경우 반드시 해당 값으로 설정해야 함
+    - job 에 `name` 이 존재하는 경우 반드시 해당 이름으로 설정해야 함
+    - develop, main 브랜치에 test, preview deploy job 을 추가
+    - **production deploy job 은 추가하지 않는다(영구 pending 상태)**
 
 ## 6. Github Actions 파일 생성
 
