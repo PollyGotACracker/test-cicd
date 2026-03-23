@@ -18,6 +18,9 @@ jobs:
   deploy-production:
     name: Deploy Production
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       # 레포지토리 코드를 가상머신에 체크아웃
       - uses: actions/checkout@v4
@@ -60,9 +63,16 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `⏰ 배포 시각: ${{ steps.current-time.outputs.formattedTime }}`
-            })
+              commit_sha: context.sha,
+            });
+            if (prs.length > 0) {
+              await github.rest.issues.createComment({
+                issue_number: prs[0].number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `⏰ 배포 시각: ${{ steps.current-time.outputs.formattedTime }}`
+              });
+            }
