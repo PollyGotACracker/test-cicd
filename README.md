@@ -141,6 +141,12 @@ vercel dev
     - develop, main 브랜치에 test, preview deploy job 을 추가
     - **production deploy job 은 추가하지 않는다(영구 pending 상태)**
 
-## 6. Github Actions 파일 생성
+## 6. Github General 설정
+
+1. 레포지토리 Settings
+2. General > Automatically delete head branches 선택
+   - PR 이 merge 되면 해당 브랜치 자동 삭제
+
+## 7. Github Actions 파일 생성
 
 - ./github/workflows 에 yaml(yml) 파일 생성
