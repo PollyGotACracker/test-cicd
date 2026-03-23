@@ -46,3 +46,23 @@ jobs:
       # Production Deploy
       - name: Deploy to Production
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      # 배포 완료 시각 저장 자동 세팅
+      - name: Get current Time
+        uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: "YYYY년 MM월 DD일 HH시 mm분"
+          utcOffset: "+09:00"
+
+      # Production 댓글 추가
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `⏰ 배포 시각: ${{ steps.current-time.outputs.formattedTime }}`
+            })
