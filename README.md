@@ -124,7 +124,22 @@ vercel dev
 5. Connected Git Repository
 6. Disconnect
 
-## 5. Github branch ruleset 설정
+## 5. Vercel Team 설정 수정
+
+- 수정하지 않으면 preview URL 등에 닉네임이 표시된다(...s project).
+
+1. Vercel 대시보드
+2. 좌하단 Settings
+3. General
+4. Team Name 변경
+5. Team URL 변경
+
+## 5. Github Actions 파일 생성
+
+- ./github/workflows 에 yaml(yml) 파일 생성
+- node version 은 프로젝트에 맞게 설정
+
+## 6. Github branch ruleset 설정
 
 1. 레포지토리 Settings
 2. Branches > Add branch ruleset
@@ -141,12 +156,8 @@ vercel dev
     - develop, main 브랜치에 test, preview deploy job 을 추가
     - **production deploy job 은 추가하지 않는다(영구 pending 상태)**
 
-## 6. Github General 설정
+## 7. Github General 설정
 
 1. 레포지토리 Settings
 2. General > Automatically delete head branches 선택
    - PR 이 merge 되면 해당 브랜치 자동 삭제
-
-## 7. Github Actions 파일 생성
-
-- ./github/workflows 에 yaml(yml) 파일 생성
