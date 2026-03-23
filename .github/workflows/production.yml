@@ -1,10 +1,9 @@
 # ============================================================
 # Production 배포 워크플로우
-# develop → main PR이 merge 되어 main에 push될 때 실행
+# develop → main PR이 merge될 때 실행
 # ============================================================
 name: Deploy Production
 
-# 트리거 조건
 on:
   push:
     branches: [main]
