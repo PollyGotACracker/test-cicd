@@ -10,14 +10,14 @@
 팀원 A: feat/... 작업 → develop으로 PR
           ↓
 GitHub Actions: Jest 테스트 → 통과 → Vercel Preview 배포
-          ↓                          ↓
-PR에 Preview URL 댓글               팀원들이 확인
           ↓
-코드리뷰 + 테스트 통과 → develop merge
+PR에 Preview 댓글 → 수동으로 develop merge
           ↓
-develop → main PR → 같은 과정 → main merge
+develop → main PR → 수동으로 main merge
           ↓
 GitHub Actions: Vercel Production 배포
+          ↓
+PR에 Production 댓글
 ```
 
 ## 권한 구조
