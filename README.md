@@ -124,9 +124,22 @@ vercel dev
 5. Connected Git Repository
 6. Disconnect
 
-## 5. Vercel Team 설정 수정
+## 5. Vercel 설정 변경
 
-- 수정하지 않으면 preview URL 등에 닉네임이 표시된다(...s project).
+### 5.1. Deployment Protection 설정
+
+- 기본값은 vercel 인증이 필요하기 때문에 팀원들이 preview 링크를 열 수 없다.
+
+1. Vercel 대시보드
+2. 프로젝트 선택
+3. Settings
+4. Deployment Protection
+5. Vercel Authentication
+6. Disabled 토글
+
+### 5.2. Team 설정
+
+- 기본값은 preview URL 등에 닉네임이 표시된다(...s project).
 
 1. Vercel 대시보드
 2. 좌하단 Settings
