@@ -44,7 +44,7 @@ jobs:
 
       # Vercel CLI 설치
       - name: Install Vercel CLI
-        run: npm install -g vercel@latest
+        run: pnpm install -g vercel@latest
 
       # Preview Build
       - name: Pull Vercel Environment
