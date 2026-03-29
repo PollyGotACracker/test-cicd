@@ -22,9 +22,11 @@ jobs:
       # 레포지토리 코드를 가상머신에 체크아웃
       - uses: actions/checkout@v4
 
-      # pnpm 설치
+      # pnpm 설치 (pnpm/action-setup, 프로젝트 의존성 설치 X)
       - name: Install pnpm
-        run: corepack enable pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: 10
 
       # Node.js 환경 설정 (pnpm 캐싱 사용)
       - name: Setup Node.js
@@ -42,10 +44,9 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-      # Vercel CLI 설치(npm install -g vercel@latest)
+      # Vercel CLI 설치
       - name: Install Vercel CLI
-        run_install: |
-          - args: [--global, vercel@latest]
+        run: pnpm install -g vercel@latest
 
       # Preview Build
       - name: Preview Build
