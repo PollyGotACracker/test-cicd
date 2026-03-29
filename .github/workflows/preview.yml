@@ -22,7 +22,7 @@ jobs:
       # 레포지토리 코드를 가상머신에 체크아웃
       - uses: actions/checkout@v4
 
-      # pnpm 설치 (pnpm/action-setup, 프로젝트 의존성 설치 X)
+      # pnpm 설치 (pnpm/action-setup)
       - name: Install pnpm
         uses: pnpm/action-setup@v5
         with:
