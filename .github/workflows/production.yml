@@ -32,15 +32,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "pnpm"
 
-      # Vercel CLI 설치
+      # Vercel CLI 설치(npm install -g vercel@latest)
       - name: Install Vercel CLI
-        run: pnpm install -g vercel@latest
+        run_install: |
+          - args: [--global, vercel@latest]
 
       # Production Build
-      - name: Pull Vercel Environment
+      - name: Production Build
         run: |
           vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
